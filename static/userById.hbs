@@ -10,12 +10,15 @@
 <body>
 
 <div>
-    <div>FirstName: {{user.firstName}}</div>
-    <div>LastName: {{user.lastName}}</div>
-    <div>Email: {{user.email}}</div>
-    <div>Password: {{user.password}}</div>
-    <div>Age:{{user.age}} </div>
-    <div>City: {{user.city}}</div>
+    <form action="/users/{{userId}}" method="post">
+        <div>FirstName: {{user.firstName}}</div>
+        <div>LastName: {{user.lastName}}</div>
+        <div>Email: {{user.email}}</div>
+        <div>Password: {{user.password}}</div>
+        <div>Age:{{user.age}} </div>
+        <div>City: {{user.city}}</div>
+        <input type="submit" value="Delete">
+    </form>
 </div>
 
 </body>

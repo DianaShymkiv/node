@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 const users = [{
+    id: 1,
     firstName: 'Dima',
     lastName: 'Demchuk',
     email: 'demchuk@gmail.com',
@@ -22,6 +23,7 @@ const users = [{
     age: '23',
     city: 'Lviv'
 }, {
+    id: 2,
     firstName: 'Kostya',
     lastName: 'Fedoriv',
     email: 'fedoriv@gmail.com',
@@ -29,6 +31,7 @@ const users = [{
     age: '16',
     city: 'Kiyv'
 }, {
+    id: 3,
     firstName: 'Alina',
     lastName: 'Shum',
     email: 'shum@gmail.com',
@@ -38,23 +41,42 @@ const users = [{
 }];
 
 
-app.get('/login', ((req, res) => {
-    res.render('login');
-}));
-
 app.get('/error', ((req, res) => {
     res.render('error');
+}));
+
+
+app.get('/login', ((req, res) => {
+    res.render('login');
 }));
 
 app.post('/login', (req, res) => {
     const email = users.find(user => user.email === req.body.email);
     if (email) {
-        res.redirect('/error');
+        res.render('error', {errorMessage: "User with this email address already exists"});
+        return;
     }
-    users.push(req.body);
+    users.push({...req.body, id: users.length + 1});
 
     res.redirect('/users');
 });
+
+
+app.get('/register', ((req, res) => {
+    res.render('register');
+}));
+
+app.post('/register', ((req, res) => {
+    const {email, password} = req.body;
+    const user = users.find(user => user.email === email);
+
+    if (!user || user.password !== password) {
+        res.render('error', {errorMessage: "Password is wrong!"});
+        return;
+    }
+    res.redirect(`/users/${user.id}`);
+}));
+
 
 app.get('/users', (req, res) => {
     if (req.query) {
@@ -76,9 +98,24 @@ app.get('/users', (req, res) => {
 app.get('/users/:userId', (req, res) => {
     const {userId} = req.params;
     const user = users[userId - 1];
-    res.render('userById', {user});
+    res.render('userById', {user, userId});
+
 });
 
+app.post('/users/:userId', (req, res) => {
+    const {userId} = req.params;
+    let user = users.find(user => +userId === user.id);
+    // console.log(user);
+    // console.log(users);
+
+    if (user) {
+        users.splice(userId - 1, 1);
+        // console.log(users);
+        res.redirect('/users');
+        return;
+    }
+
+});
 
 app.use(((req, res) => {
     res.render('notFound');
