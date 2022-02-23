@@ -1,4 +1,5 @@
 const {Router} = require('express');
+
 const registerController = require('../controllers/registerController');
 const isEmailExist = require('../middlewares/isEmailExist');
 

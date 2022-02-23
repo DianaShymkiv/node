@@ -1,7 +1,7 @@
 const express = require('express');
 const {engine} = require('express-handlebars');
 const path = require('path');
-const users = require('./userArray/userArray');
+
 const apiRoutes = require('./routes/apiRoutes');
 
 const app = express();

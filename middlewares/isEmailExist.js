@@ -15,8 +15,8 @@ function isEmailExist(req, res, next) {
 
         next();
     } catch (err) {
-        console.log(err.message);
-        res.status(400).send(err.message);
+        // res.status(400).send(err.message);
+        res.render('error', {errorMessage: err});
     }
 }
 

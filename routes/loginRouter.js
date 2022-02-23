@@ -1,4 +1,5 @@
 const {Router} = require('express');
+
 const loginController = require('../controllers/loginController');
 const isUserValid = require('../middlewares/isUserValid');
 

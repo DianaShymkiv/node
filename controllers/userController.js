@@ -21,7 +21,13 @@ class UserController {
     renderUserById(req, res) {
         const {userId} = req.params;
         const user = users[userId - 1];
-        res.render('userById', {user, userId});
+
+        if (user) {
+            res.render('userById', {user, userId});
+
+        } else {
+            res.render('error', {errorMessage: 'User is not exist'});
+        }
     };
 
     deleteUserById(req, res) {
